@@ -9,7 +9,7 @@ import javax.crypto.Cipher;
 import java.security.KeyFactory;
 import java.security.*;
 /**
- * @author JavaDigest
+ * @author charles Thibaud, thibault Daccord 
  *
  */
 public class RSACrypt{
