@@ -9,7 +9,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
+//@author charles Thibaud, thibault Daccord
 public class AESCrypt {
 
 	private  final String IV = "AAAAAAAAAAAAAAAQ";
