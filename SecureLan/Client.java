@@ -28,7 +28,6 @@ public class Client {
 			tps1=System.currentTimeMillis();
 			if((tps1-tps0)>5000)
 				bon=false;
-			System.out.println("en attente du serveur sur le port "+port);
 			try{
 			socketServeur.setSoTimeout(44);
 			socketClient = socketServeur.accept();
@@ -36,10 +35,9 @@ public class Client {
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
-			System.out.println("serveu cree");
 			if(socketClient!=null)
 			if(!haveIp(socketClient.getInetAddress().toString())){
-				System.out.println("co trouve :"+ socketClient.getInetAddress());
+				System.out.println("connexion trouvee :"+ socketClient.getInetAddress());
 				connexions.add(socketClient);}
 		}
 

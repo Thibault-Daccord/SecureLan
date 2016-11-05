@@ -56,7 +56,6 @@ public class CryptSocket{
 		for(Socket s : socketArray){
 			if(s.getInetAddress().toString().substring(1).equalsIgnoreCase(ip)){
 				sockets.add(s);
-				System.out.println("ip add :"+ip);
 			}
 			
 		}	
@@ -95,14 +94,9 @@ public class CryptSocket{
 		PrivateKey cleRsaPrive = rsa.getPrivateKey();
 		byte[] q =cleRsaPublic.getEncoded();
 		String rep= genererQuestionCleActivation()+"#";
-		System.out.println("reep="+rep);
 		for(byte b :q){
-			System.out.println(b);
 			rep+=","+b;
-		}
-		System.out.println("rep="+rep);
-		
-		System.out.println("la cle cleRsaPublic  a une taille de "+cleRsaPublic.getEncoded().length);
+		}		
 			 out = new DataOutputStream(s.getOutputStream());
 	          out.writeUTF(rep);
 		DataInputStream in;
@@ -114,12 +108,9 @@ public class CryptSocket{
 			     cleAesCrypte=cleAesCrypte.substring(1,cleAesCrypte.length());
 			     byte[] bcleAesCrypte=StringKeyToByte(cleAesCrypte);
 			     cleAes=rsa.decrypt(bcleAesCrypte);
-			     System.out.println(cleAesCrypte);
-			     System.out.println(cleAes);
-			     System.out.println(s);
+
 				  SocketAes.put(s,cleAes);
 				 
-				System.out.println("la cle aes recu est "+tabToString(cleAes));
 				out.writeUTF("ok");
 		     }
 		     else{
@@ -143,7 +134,6 @@ public class CryptSocket{
 			byte[] cleAes;
 			
 			cleAes = aes.generateKey();
-			System.out.println("la cle aes nom crypté a envoyer est "+tabToString(cleAes));
 
 			byte[] rsaPublicKey;
 			String algorithm = "RSA"; // or RSA, DH, etc.
@@ -164,7 +154,6 @@ public class CryptSocket{
 				}
 			}
 			
-			System.out.println("rsa="+sRsa);
 			rsaPublicKey=StringKeyToByte(sRsa);
 				EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(rsaPublicKey);
 				PublicKey pk = keyFactory.generatePublic(publicKeySpec);
@@ -172,12 +161,10 @@ public class CryptSocket{
 				DataOutputStream out;
 				out = new DataOutputStream(s.getOutputStream());
 				out.writeUTF(genererReponseCleActivation()+"#"+tabToString(cleAesCrypte));
-				System.out.println("cle aes envoyer");
 				 bon =false;
 				rep = in.readUTF();
 				if(rep.equals("ok")){
 					SocketAes.put(s, cleAes);
-					System.out.println("socket ajouter");
 				}
 				else{
 					System.out.println("echec de la connexion");
