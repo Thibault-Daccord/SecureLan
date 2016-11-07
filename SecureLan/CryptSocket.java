@@ -128,50 +128,54 @@ public class CryptSocket{
 	 }
 
 	 
-	 private  void acceptLink(Socket s) throws Exception{
-			aes = new AESCrypt();
-			byte[] cleAesCrypte;
-			byte[] cleAes;
-			
-			cleAes = aes.generateKey();
+	private  void acceptLink(Socket s) throws Exception{
+		aes = new AESCrypt();
+		byte[] cleAesCrypte;
+		byte[] cleAes;
+		
+		cleAes = aes.generateKey();
+		System.out.println("la cle aes nom crypté a envoyer est "+tabToString(cleAes));
 
-			byte[] rsaPublicKey;
-			String algorithm = "RSA"; // or RSA, DH, etc.
-			KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
-			DataInputStream in = new DataInputStream(s.getInputStream());
-			boolean bon =false;
-			String rep="";
-			String sRsa="";
-			while(!bon){
-				rep = in.readUTF();
-				String[] q=rep.split("#,");
-				if(q.length>1){
-					String qq=q[0];
-					sRsa=q[1];
-					
-					if(qq.equals(genererQuestionCleActivation()));
-						bon=true;
-				}
+		byte[] rsaPublicKey;
+		String algorithm = "RSA"; // or RSA, DH, etc.
+		KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
+		DataInputStream in = new DataInputStream(s.getInputStream());
+		boolean bon =false;
+		String rep="";
+		String sRsa="";
+		while(!bon){
+			rep = in.readUTF();
+			String[] q=rep.split("#,");
+			if(q.length>1){
+				String qq=q[0];
+				sRsa=q[1];
+				
+				if(qq.equals(genererQuestionCleActivation()));
+					bon=true;
 			}
-			
-			rsaPublicKey=StringKeyToByte(sRsa);
-				EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(rsaPublicKey);
-				PublicKey pk = keyFactory.generatePublic(publicKeySpec);
-				cleAesCrypte = rsa.encrypt(cleAes,pk);
-				DataOutputStream out;
-				out = new DataOutputStream(s.getOutputStream());
-				out.writeUTF(genererReponseCleActivation()+"#"+tabToString(cleAesCrypte));
-				 bon =false;
-				rep = in.readUTF();
-				if(rep.equals("ok")){
-					SocketAes.put(s, cleAes);
-				}
-				else{
-					System.out.println("echec de la connexion");
-				}
-			
-			
 		}
+		
+		System.out.println("rsa="+sRsa);
+		rsaPublicKey=StringKeyToByte(sRsa);
+			EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(rsaPublicKey);
+			PublicKey pk = keyFactory.generatePublic(publicKeySpec);
+			cleAesCrypte = rsa.encrypt(cleAes,pk);
+			DataOutputStream out;
+			out = new DataOutputStream(s.getOutputStream());
+			out.writeUTF(genererReponseCleActivation()+"#"+tabToString(cleAesCrypte));
+			System.out.println("cle aes envoyer");
+			 bon =false;
+			rep = in.readUTF();
+			if(rep.equals("ok")){
+				SocketAes.put(s, cleAes);
+				System.out.println("socket ajouter");
+			}
+			else{
+				System.out.println("echec de la connexion");
+			}
+		
+		
+	}
 		
 	private byte[] StringKeyToByte(String s){
 		String[] tab = s.split(",");
@@ -296,7 +300,7 @@ public class CryptSocket{
 	public void writeUTF(String msg) throws IOException{
 		write(msg.getBytes());
 	}
-	public String readUTF(String msg) throws Exception{
+	public String readUTF() throws Exception{
 		return new String(readFully());
 	}
 
