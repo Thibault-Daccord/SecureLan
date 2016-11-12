@@ -1,2 +1,3 @@
 # SecureLan
-recherche des peripheriques sur un reseau local et integre CryptSocket qui crypte les sockets
+
+Grace à la classe Detecteur, Securelan peut trouver les ordinateurs equipés, puis avec CryptSocket il peut cree une connection crypté est facile d'utilisation
