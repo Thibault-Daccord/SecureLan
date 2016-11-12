@@ -29,11 +29,10 @@ public class Main {
 		detecteur.lancerRecherche();
 		detecteur.actualiserScan();
 		ArrayList<Socket> coPossible = detecteur.getConnexionsPossibles();
-		System.out.println("le client a trouver "+coPossible.size()+ " serveur");
+		System.out.println("le client a trouver "+coPossible.size()+ " serveurs");
 
 		CryptSocket cryptSocket = new CryptSocket(coPossible);
 		cryptSocket.makeLink();
-		cryptSocket.writeUTF("cc toii");
 		cryptSocket.writeUTF("comment va tu ?");
 		System.out.println(cryptSocket.readUTF());
 
@@ -45,9 +44,11 @@ public class Main {
 		detecteur.lancerRepondeur();// cree un nouveau socket 
 		detecteur.actualiserScan();
 		ArrayList<Socket> coPossible = detecteur.getConnexionsPossibles();
-		System.out.println("le serveur a trouver "+coPossible.size()+ " serveur");
+		System.out.println("le serveur a trouver "+coPossible.size()+ " client");
 		CryptSocket cryptSocket = new CryptSocket(coPossible);
 		cryptSocket.acceptLink();
+		System.out.println(cryptSocket.readUTF());
+		cryptSocket.writeUTF("bien merci");
 	}
 	
 
