@@ -24,7 +24,7 @@ public class Main {
 	
 	
 	static void client() throws Exception{
-		System.out.println("lancement du client");
+		System.out.println("lancement du client !");
 		Detecteur detecteur= new Detecteur();
 		detecteur.lancerRecherche();
 		detecteur.actualiserScan();
@@ -36,7 +36,7 @@ public class Main {
 	}
 	
 	static void serveur() throws Exception{
-		System.out.println("lancement du serveur");
+		System.out.println("lancement du serveur !");
 		Detecteur detecteur= new Detecteur();
 		detecteur.lancerRepondeur();// cree un nouveau socket 
 		detecteur.actualiserScan();
